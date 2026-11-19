@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CropYield AI | MLP Agriculture Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head>
+<body><div class="layout">
+<aside class="sidebar"><a class="brand" href="#"><span class="leaf">✳</span><span>CropYield <b>AI</b></span></a><div class="nav-label">WORKSPACE</div>
+<a class="nav active" href="#overview">▦ <span>Dashboard</span></a><a class="nav" href="#predict">⌁ <span>Yield prediction</span></a><a class="nav" href="#analytics">▥ <span>Analytics</span></a><a class="nav" href="#model">◉ <span>MLP model</span></a>
+<div class="side-status"><i></i> Trained model available<small>Research dataset loaded</small></div></aside>
+<main class="main">
+<header class="header"><div><div class="kicker">AGRICULTURE INTELLIGENCE PLATFORM</div><h1>Crop Yield Dashboard <span class="live">● MODEL READY</span></h1></div><div class="profile"><span>REAL DATASET</span><b>R</b></div></header>
+<section id="overview" class="stats">
+<div class="stat"><label>Dataset records</label><strong>{{ "{:,}".format(row_count) }}</strong><small>After data validation</small></div>
+<div class="stat"><label>Crop varieties</label><strong>{{ crop_count }}</strong><small>Unique crops in dataset</small></div>
+<div class="stat"><label>States / UTs</label><strong>{{ state_count }}</strong><small>Geographic coverage</small></div>
+<div class="stat highlight"><label>Selected algorithm</label><strong>MLP</strong><small>Artificial neural network · Regression</small></div>
+</section>
+<section class="grid-two">
+<article class="panel" id="analytics"><div class="panel-title"><div><small>DATASET EXPLORATION</small><h2>Average yield by crop</h2></div><span class="pill">REAL DATA</span></div><div class="chart"><canvas id="cropChart"></canvas></div><div class="legend"><i></i> Average recorded yield</div></article>
+<article class="panel" id="model"><div class="panel-title"><div><small>MODEL EVALUATION</small><h2>Held-out test performance</h2></div><span class="pill green">MLP REGRESSOR</span></div>
+<div class="metrics"><div><span>MAE</span><b>{{ "%.3f"|format(metadata.test_metrics.mae) }}</b></div><div><span>MSE</span><b>{{ "%.3f"|format(metadata.test_metrics.mse) }}</b></div><div><span>RMSE</span><b>{{ "%.3f"|format(metadata.test_metrics.rmse) }}</b></div><div><span>R² Score</span><b>{{ "%.3f"|format(metadata.test_metrics.r2) }}</b></div></div>
+<div class="note">Metrics are computed on a held-out 20% test set. Values use the yield unit in the source dataset.</div></article></section>
+<section class="lower">
+<article class="panel predictor" id="predict"><div class="panel-title"><div><small>MLP INFERENCE</small><h2>Predict crop yield</h2><p>Enter agricultural and regional information below.</p></div><span class="pill green">LIVE PREDICTION</span></div>
+<form id="form"><div class="fields">
+<label>Crop<select name="Crop" id="crop" required></select></label>
+<label>State<select name="State" id="state" required></select></label>
+<label>Season<select name="Season" id="season" required><option>Kharif</option><option>Rabi</option><option>Whole Year</option><option>Summer</option><option>Autumn</option><option>Winter</option></select></label>
+<label>Crop year<input name="Crop_Year" type="number" min="1990" max="2035" value="2020" required></label>
+<label>Annual rainfall<input name="Annual_Rainfall" type="number" min="0" step="0.1" value="850" required></label>
+<label>Area cultivated<input name="Area" type="number" min="0.01" step="0.01" value="100" required></label>
+<label>Pesticide use<input name="Pesticide" type="number" min="0" step="0.01" value="10" required></label>
+<label>Fertilizer use<input name="Fertilizer" type="number" min="0" step="0.01" value="100" required></label>
+</div><div class="form-foot"><small>Feature units must match the original dataset.</small><button type="submit">Predict yield <b>↗</b></button></div></form>
+<div id="result" class="result hidden" aria-live="polite"></div></article>
+<article class="panel trend"><div class="panel-title"><div><small>HISTORICAL ANALYSIS</small><h2>Yield trend by year</h2></div><span class="pill">DATASET</span></div><div class="chart trend-chart"><canvas id="trendChart"></canvas></div><div class="mini"><b>MLP architecture</b><small>Input → Dense hidden layers → Linear output. ReLU/Tanh activation is compared during training.</small></div></article></section>
+<section class="panel recent"><div class="panel-title"><div><small>SESSION ACTIVITY</small><h2>Recent predictions</h2></div><span class="pill">CURRENT SESSION</span></div><div id="history" class="history"><p>Run a prediction to see it listed here.</p></div></section>
+<footer>CropYield AI · Crop Yield Prediction using MLP Regression · Academic Project</footer>
+</main></div><script src="{{ url_for('static',filename='js/app.js') }}"></script></body></html>
